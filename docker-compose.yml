@@ -1,0 +1,57 @@
+version: "3.6"
+networks:
+
+  back-tier:
+    external: true
+
+services:
+#  core_api:
+#    image: core_api:latest
+#    restart: always
+#    networks:
+#      - back-tier
+#    build:
+#      context: .
+#      dockerfile: Dockerfile_flask
+#    environment:
+#      - MODULE=flaskApp
+#    ports:
+#      - "5001:5000"
+#    volumes:
+#    - "./config.example.yml:/app/config.yml"
+
+
+
+
+#  va_trx_worker:
+#    image: core_worker:latest
+#    restart: always
+#    networks:
+#      - back-tier
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    environment:
+#      - MODULE=va_transaction_worker
+#    env_file:
+#      - './.env'
+#    volumes:
+#    - "./config.example.yml:/app/config.yml"
+
+
+  multiprocessor:
+    image: core_worker:latest
+    restart: always
+    networks:
+      - back-tier
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - MODULE=multiprocessor
+    ports:
+      - "5000:5000"
+    env_file:
+      - './.env'
+    volumes:
+    - "./config.example.yml:/app/config.yml"

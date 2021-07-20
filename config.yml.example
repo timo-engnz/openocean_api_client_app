@@ -1,0 +1,25 @@
+test:
+  mysql:
+    connection:
+      echo: False
+      host: localhost
+      port: 3306
+      username: root
+      password:
+      database: test
+
+  kplc_cred:
+    url: https://api.openocean.co.ke/v1/kplc/Request
+    headers:
+      Content-Type: application/json
+      AccessKey: ACCESS_KEY_HERE
+      ApiKey: API_KEY_HERE
+      ClientId: CLIENT_ID_HERE
+
+  airtime_cred:
+    url: https://api.openocean.co.ke/v1/airtime/Purchase
+    headers:
+      Content-Type: application/json
+      AccessKey: ACCESS_KEY_HERE
+      ApiKey: API_KEY_HERE
+      ClientId: CLIENT_ID_HERE

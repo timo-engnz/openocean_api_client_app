@@ -1,0 +1,7 @@
+*.pyc
+**.pyc
+**swp
+.idea
+venv
+.env
+.config.yml

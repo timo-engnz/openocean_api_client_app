@@ -1,0 +1,43 @@
+
+"""
+
+By Timothy Wahome
+"""
+
+import pika
+import json
+import argparse
+from app import Application
+
+
+env = 'PRODUCTION'
+app = Application(env, "mfanisi")
+
+results = app.session.query(app.db.Customer). \
+    filter(app.db.Customer.status == 1). \
+    all()
+
+message="Dear customer we wish to notify you of a scheduled system maintenance on 27th August 2020 from 1900hrs to 2300hrs during this time all our mobile banking services will be unavailable. Sorry for any inconveniences caused."
+
+for customer in results:
+	try:
+		dbQueue = app.db.Dbqueue(
+		    # RecordID=time.time(),
+		    Originator="22141",
+		    Destination=customer.msisdn,
+		    Message=message,
+		    MessageDirection="OUT",
+		    SMSCID="",
+		    node="1",
+		    LinkId="LINK"
+		)
+		app.logger.info('>>>> [{}:{}]: {}'.format(customer.msisdn, customer.first_name, dbQueue.Message))
+
+		app.session.add(dbQueue)
+		app.session.commit()
+
+	except Exception as e:
+		app.logger.error(e)
+		app.session.rollback()
+
+app.logger.info("Done")
